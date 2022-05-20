@@ -147,7 +147,7 @@ class OrderNotificationPreview extends Component
             return 'Unable to load preview';
         }
 
-        return $this->buildMailer($mailer['class']);
+        return $this->buildMailer($mailer['class'])->render();
     }
 
     public function buildMailer($class)
