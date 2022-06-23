@@ -30,6 +30,97 @@ If you're using Meilisearch, run the following
 php artisan getcandy:meilisearch:setup
 ```
 
+## 2.0-beta13.2
+
+### Changes to modifiers - High Impact
+
+If you're using custom modifiers, you will need to update the methods like so:
+
+CartLineModifier
+
+```php
+/**
+ * Called just before cart totals are calculated.
+ *
+ * @return CartLine
+ */
+public function calculating(CartLine $cartLine, Closure $next): CartLine
+{
+    return $next($cartLine);
+}
+
+/**
+ * Called just after cart totals are calculated.
+ *
+ * @return CartLine
+ */
+public function calculated(CartLine $cartLine, Closure $next): CartLine
+{
+    return $next($cartLine);
+}
+```
+
+CartLineModifier
+
+```php
+    /**
+ * Called just before cart totals are calculated.
+ *
+ * @return void
+ */
+public function calculating(Cart $cart, Closure $next): Cart
+{
+    return $next($cart);
+}
+
+/**
+ * Called just after cart totals are calculated.
+ *
+ * @return void
+ */
+public function calculated(Cart $cart, Closure $next): Cart
+{
+    return $next($cart);
+}
+```
+
+OrderModifier
+
+```php
+public function creating(Cart $cart, Closure $next): Cart
+{
+    return $next($cart);
+}
+
+public function created(Order $order, Closure $next): Order
+{
+    return $next($order);
+}
+```
+
+## 2.0-beta13
+
+### Additional Scout configuration
+
+It's now possible to define which Scout driver should be used on a per model basis. To enable this, add the following to `config/getcandy/search.php`
+
+```php
+/*
+|--------------------------------------------------------------------------
+| Search engine mapping
+|--------------------------------------------------------------------------
+|
+| You can define what search driver each searchable model should use.
+| If the model isn't defined here, it will use the SCOUT_DRIVER env variable.
+|
+*/
+'engine_map' => [
+    // \GetCandy\Models\Product::class => 'algolia',
+    // \GetCandy\Models\Order::class => 'meilisearch',
+    // \GetCandy\Models\Collection::class => 'meilisearch',
+],
+```
+
 ## 2.0-beta12
 
 ### Payment driver changes.
