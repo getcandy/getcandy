@@ -2,8 +2,6 @@
 
 namespace GetCandy\Hub\Actions;
 
-use GetCandy\Hub\Actions\ActionParams;
-
 abstract class Action
 {
     /**
@@ -14,10 +12,9 @@ abstract class Action
     protected $override = null;
 
     /**
-     * Render the action
+     * Render the action.
      *
-     * @param ActionParams $params
-     *
+     * @param  ActionParams  $params
      * @return string
      */
     abstract public function component(): string;

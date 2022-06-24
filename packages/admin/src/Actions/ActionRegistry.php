@@ -15,12 +15,12 @@ class ActionRegistry
     protected Collection $slots;
 
     /**
-     * Instantiate the registry
+     * Instantiate the registry.
      */
     public function __construct()
     {
         $this->slots = collect([
-            new ActionSlot('orders.view.top')
+            new ActionSlot('orders.view.top'),
         ]);
     }
 

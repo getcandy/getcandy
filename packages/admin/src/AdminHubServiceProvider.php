@@ -3,6 +3,7 @@
 namespace GetCandy\Hub;
 
 use GetCandy\Hub\Actions\ActionRegistry;
+use GetCandy\Hub\Actions\Orders\UpdateStatus;
 use GetCandy\Hub\Auth\Manifest;
 use GetCandy\Hub\Base\OrdersTableInterface;
 use GetCandy\Hub\Console\Commands\InstallHub;
@@ -24,6 +25,7 @@ use GetCandy\Hub\Http\Livewire\Components\Orders\OrderCapture;
 use GetCandy\Hub\Http\Livewire\Components\Orders\OrderRefund;
 use GetCandy\Hub\Http\Livewire\Components\Orders\OrderShow;
 use GetCandy\Hub\Http\Livewire\Components\Orders\OrdersIndex;
+use GetCandy\Hub\Http\Livewire\Components\Orders\OrderStatus;
 use GetCandy\Hub\Http\Livewire\Components\ProductOptions\OptionManager;
 use GetCandy\Hub\Http\Livewire\Components\ProductOptions\OptionValueCreateModal;
 use GetCandy\Hub\Http\Livewire\Components\Products\Editing\CustomerGroups;
@@ -70,8 +72,6 @@ use GetCandy\Hub\Menu\SettingsMenu;
 use GetCandy\Hub\Menu\SidebarMenu;
 use GetCandy\Hub\Menu\SlotRegistry;
 use GetCandy\Hub\Tables\Orders;
-use GetCandy\Hub\Actions\Orders\UpdateStatus;
-use GetCandy\Hub\Http\Livewire\Components\Orders\OrderStatus;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -109,7 +109,6 @@ class AdminHubServiceProvider extends ServiceProvider
             return new ActionRegistry();
         });
 
-
         $this->app->singleton(SlotRegistry::class, function () {
             return new SlotRegistry();
         });
@@ -122,13 +121,9 @@ class AdminHubServiceProvider extends ServiceProvider
             return $app->make(Orders::class);
         });
 
-
-
         $slot = Action::slot('orders.view.top')->addAction(
             new UpdateStatus
         );
-
-
     }
 
     /**

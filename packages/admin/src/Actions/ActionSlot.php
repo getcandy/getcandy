@@ -2,13 +2,12 @@
 
 namespace GetCandy\Hub\Actions;
 
-use GetCandy\Hub\Actions\Action;
 use Illuminate\Support\Collection;
 
 class ActionSlot
 {
     /**
-     * The action slot handle
+     * The action slot handle.
      *
      * @var string
      */

@@ -4,7 +4,6 @@ namespace GetCandy\Hub\Http\Livewire\Components\Orders;
 
 use GetCandy\Hub\Http\Livewire\Traits\Notifies;
 use GetCandy\Models\Order;
-use GetCandy\Models\Transaction;
 use Livewire\Component;
 
 class OrderStatus extends Component
