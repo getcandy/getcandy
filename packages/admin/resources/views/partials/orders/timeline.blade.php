@@ -1,6 +1,6 @@
 <div class="flex items-center mt-4">
           <div class="flex-shrink-0">
-            @livewire('hub.components.avatar')
+            @livewire('hub.components.avatar', ['attributes' => ['class' => 'w-10 h-10 inline-block rounded-full']])
           </div>
 
           <form class="relative w-full ml-4" wire:submit.prevent="addComment">
