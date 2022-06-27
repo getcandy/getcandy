@@ -1,58 +1,55 @@
 <div class="flex items-center mt-4">
-          <div class="flex-shrink-0">
-            @livewire('hub.components.avatar', ['attributes' => ['class' => 'w-10 h-10 inline-block rounded-full']])
-          </div>
+    <div class="flex-shrink-0">
+        @livewire('hub.components.avatar')
+    </div>
 
-          <form class="relative w-full ml-4" wire:submit.prevent="addComment">
-            <textarea
-              class="w-full pl-4 pr-32 pt-5 border border-gray-200 rounded-lg h-[58px] sm:text-sm form-text"
-              type="text"
-              placeholder="Add a comment"
-              wire:model.defer="comment"
-              required
-              multiline
-            >
+    <form class="relative w-full ml-4"
+          wire:submit.prevent="addComment">
+        <textarea class="w-full pl-4 pr-32 pt-5 border border-gray-200 rounded-lg h-[58px] sm:text-sm form-text"
+                  type="text"
+                  placeholder="Add a comment"
+                  wire:model.defer="comment"
+                  required
+                  multiline>
             </textarea>
 
-            <button
-              class="absolute h-[42px] text-xs font-bold leading-[42px] text-gray-700 bg-gray-100 border border-transparent rounded-md hover:border-gray-100 hover:bg-gray-50 w-28 top-2 right-2"
-              type="submit"
-            >
-              <div wire:loading.remove wire:target="addComment">
+        <button class="absolute h-[42px] text-xs font-bold leading-[42px] text-gray-700 bg-gray-100 border border-transparent rounded-md hover:border-gray-100 hover:bg-gray-50 w-28 top-2 right-2"
+                type="submit">
+            <div wire:loading.remove
+                 wire:target="addComment">
                 Add Comment
-              </div>
-              <div wire:loading wire:target="addComment">
-                <x-hub::icon ref="refresh" style="solid" class="inline-block rotate-180 animate-spin" />
-              </div>
+            </div>
+            <div wire:loading
+                 wire:target="addComment">
+                <x-hub::icon ref="refresh"
+                             style="solid"
+                             class="inline-block rotate-180 animate-spin" />
+            </div>
 
-            </button>
-          </form>
-        </div>
+        </button>
+    </form>
+</div>
 
-        <div class="relative pt-8">
-          <span class="absolute inset-y-0 left-5 w-[2px] bg-gray-200"></span>
+<div class="relative pt-8">
+    <span class="absolute inset-y-0 left-5 w-[2px] bg-gray-200"></span>
 
-          <div class="flow-root">
-            <ul
-              class="-my-8 divide-y-2 divide-gray-200"
-              role="list"
-            >
-              @foreach($this->activityLog as $log)
+    <div class="flow-root">
+        <ul class="-my-8 divide-y-2 divide-gray-200"
+            role="list">
+            @foreach ($this->activityLog as $log)
                 <li class="relative py-8 ml-5">
-                  <p class="ml-8 font-bold text-gray-900">
-                    {{ $log['date']->format('F jS, Y') }}
-                  </p>
+                    <p class="ml-8 font-bold text-gray-900">
+                        {{ $log['date']->format('F jS, Y') }}
+                    </p>
 
-                  <ul class="mt-4 space-y-6">
-                    @foreach($log['items'] as $item)
-                      <x-hub::activity-log.order-activity
-                        :activity="$item"
-                      />
-                    @endforeach
-                  </ul>
+                    <ul class="mt-4 space-y-6">
+                        @foreach ($log['items'] as $item)
+                            <x-hub::activity-log.order-activity :activity="$item" />
+                        @endforeach
+                    </ul>
                 </li>
-              @endforeach
-              {{-- @for ($i = 0; $i < 3; $i++)
+            @endforeach
+            {{-- @for ($i = 0; $i < 3; $i++)
                 <li class="relative py-8 ml-5">
                   <p class="ml-8 font-bold text-gray-900">
                     October 4th, 2021
@@ -128,6 +125,6 @@
                   </ul>
                 </li>
               @endfor --}}
-            </ul>
-          </div>
-        </div>
+        </ul>
+    </div>
+</div>
