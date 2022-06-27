@@ -128,9 +128,7 @@
                                     <a href="{{ route('hub.settings') }}"
                                        @class([
                                            'p-2 rounded text-gray-500 flex items-center justify-between',
-                                           'bg-blue-50 text-blue-700' => $item->isActive(
-                                               $component->attributes->get('current')
-                                           ),
+                                           'bg-blue-50 text-blue-700' => Str::contains(request()->url(), 'settings'),
                                        ])>
                                         <span class="flex items-center gap-2">
                                             {!! GetCandy\Hub\GetCandyHub::icon('cog', 'w-5 h-5') !!}
