@@ -60,7 +60,7 @@
     {!! \GetCandy\Hub\GetCandyHub::paymentIcons() !!}
 
     <div class="flex h-full">
-        @include('adminhub::partials.navigation.slide-out')
+        @include('adminhub::partials.navigation.side-menu-mobile')
 
         @include('adminhub::partials.navigation.side-menu')
 
