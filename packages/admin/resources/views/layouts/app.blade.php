@@ -338,7 +338,9 @@
                     </div>
                 </section>
 
-                @include('adminhub::partials.inner-menu')
+                @if ($menu ?? false)
+                    @include('adminhub::partials.inner-menu')
+                @endif
             </main>
         </div>
     </div>
