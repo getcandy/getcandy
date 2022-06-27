@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 class ShippingOption implements Purchasable
 {
     public function __construct(
+        public $name,
         public $description,
         public $identifier,
         public Price $price,
@@ -77,6 +78,11 @@ class ShippingOption implements Purchasable
     public function getType()
     {
         return 'shipping';
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
