@@ -900,6 +900,9 @@ video {
 .mb-4 {
   margin-bottom: 1rem;
 }
+.ml-6 {
+  margin-left: 1.5rem;
+}
 .block {
   display: block;
 }
@@ -1778,6 +1781,12 @@ video {
 }
 .p-6 {
   padding: 1.5rem;
+}
+.p-0\.5 {
+  padding: 0.125rem;
+}
+.p-0 {
+  padding: 0px;
 }
 .py-2 {
   padding-top: 0.5rem;
