@@ -208,25 +208,23 @@
         </div>
 
         <div class="hidden lg:flex lg:flex-shrink-0">
-            <div class="relative bg-white border-r border-gray-100"
+            <div class="relative flex flex-col bg-white border-r border-gray-100"
                  :class="{ 'w-48': showExpandedMenu, 'w-20 items-center': !showExpandedMenu }">
-                <div>
-                    <a href="{{ route('hub.index') }}"
-                       class="flex items-center h-16">
-                        <img src="https://markmead.dev/gc-logo.svg"
-                             alt="GetCandy Logo"
-                             class="w-auto h-10"
-                             x-show="showExpandedMenu" />
+                <a href="{{ route('hub.index') }}"
+                   class="flex items-center h-16 px-4">
+                    <img src="https://markmead.dev/gc-logo.svg"
+                         alt="GetCandy Logo"
+                         class="w-auto h-10"
+                         x-show="showExpandedMenu" />
 
-                        <img src="https://markmead.dev/gc-favicon.svg"
-                             alt="GetCandy Logo"
-                             class="w-8 h-8"
-                             x-show="!showExpandedMenu">
-                    </a>
+                    <img src="https://markmead.dev/gc-favicon.svg"
+                         alt="GetCandy Logo"
+                         class="w-8 h-8"
+                         x-show="!showExpandedMenu">
+                </a>
 
-                    <div class="px-4 pt-4 border-t border-gray-100">
-                        @livewire('sidebar')
-                    </div>
+                <div class="px-4 pt-4 border-t border-gray-100">
+                    @livewire('sidebar')
                 </div>
 
                 <button x-on:click="showExpandedMenu = !showExpandedMenu"
