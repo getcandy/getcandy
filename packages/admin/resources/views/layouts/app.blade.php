@@ -56,24 +56,31 @@
 </head>
 
 <body class="h-full overflow-hidden antialiased"
-      x-data="{ showExpandedMenu: false, showInnerMenu: true }">
-    {{-- {!! \GetCandy\Hub\GetCandyHub::paymentIcons() !!} --}}
+      x-data="{ showExpandedMenu: false, showInnerMenu: true, showMobileMenu: false }">
+    {!! \GetCandy\Hub\GetCandyHub::paymentIcons() !!}
 
     <div class="flex h-full">
-        <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
         <div class="relative z-40 lg:hidden"
              role="dialog"
              aria-modal="true">
-            <div class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
+            <div class="fixed inset-0 bg-gray-600/75"
+                 x-show="showMobileMenu"></div>
 
-            <div class="fixed inset-0 z-40 flex">
-                <div class="relative flex flex-col flex-1 w-full max-w-xs bg-white focus:outline-none">
-                    <div class="absolute top-0 right-0 pt-4 -mr-12">
+            <div class="fixed inset-0 z-40 flex"
+                 x-show="showMobileMenu">
+                <div class="relative flex flex-col flex-1 w-full max-w-xs p-4 bg-white focus:outline-none"
+                     x-on:click.away="showMobileMenu = false">
+                    <div class="flex items-center justify-between">
+                        <a href="{{ route('hub.index') }}"
+                           class="block">
+                            <img class="w-auto h-8"
+                                 src="https://markmead.dev/gc-logo.svg"
+                                 alt="GetCandy Logo">
+                        </a>
+
                         <button type="button"
-                                class="flex items-center justify-center w-10 h-10 ml-1 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                            <span class="sr-only">Close sidebar</span>
-                            <!-- Heroicon name: outline/x -->
-                            <svg class="w-6 h-6 text-white"
+                                x-on:click="showMobileMenu = false">
+                            <svg class="w-5 h-5"
                                  xmlns="http://www.w3.org/2000/svg"
                                  fill="none"
                                  viewBox="0 0 24 24"
@@ -87,106 +94,98 @@
                         </button>
                     </div>
 
-                    <div class="pt-5 pb-4">
-                        <div class="flex items-center flex-shrink-0 px-4">
-                            <img class="w-auto h-8"
-                                 src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-                                 alt="Workflow">
+                    <div class="mt-8">
+                        <x-hub::menu handle="sidebar"
+                                     current="{{ request()->route()->getName() }}">
+                            <ul class="space-y-2">
+                                @foreach ($component->items as $item)
+                                    <li x-data="{ showAccordionMenu: false }">
+                                        <a href="{{ route($item->route) }}"
+                                           @class([
+                                               'flex justify-between items-center p-2 rounded text-gray-500',
+                                               'bg-blue-50 text-blue-700' => request()->routeIs($item->route),
+                                           ])>
+                                            <span class="flex items-center flex-1 gap-2">
+                                                {!! $item->renderIcon('w-5 h-5') !!}
+
+                                                <span class="text-sm font-medium">
+                                                    {{ $item->name }}
+                                                </span>
+                                            </span>
+
+                                            <button x-on:click.prevent="showAccordionMenu = !showAccordionMenu"
+                                                    class="p-1 text-gray-600 bg-white rounded hover:text-gray-700">
+                                                <span x-show="showAccordionMenu">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                         class="w-4 h-4"
+                                                         viewBox="0 0 20 20"
+                                                         fill="currentColor">
+                                                        <path fill-rule="evenodd"
+                                                              d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+                                                              clip-rule="evenodd" />
+                                                    </svg>
+                                                </span>
+
+                                                <span x-show="!showAccordionMenu">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                         class="w-4 h-4"
+                                                         viewBox="0 0 20 20"
+                                                         fill="currentColor">
+                                                        <path fill-rule="evenodd"
+                                                              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                              clip-rule="evenodd" />
+                                                    </svg>
+                                                </span>
+                                            </button>
+                                        </a>
+
+                                        <div x-show="showAccordionMenu"
+                                             class="mt-2 ml-4">
+                                            <x-hub::menu handle="settings"
+                                                         current="{{ request()->route()->getName() }}">
+                                                <ul class="space-y-0.5">
+                                                    @foreach ($component->items as $item)
+                                                        <li>
+                                                            <a href="{{ route($item->route) }}"
+                                                               @class([
+                                                                   'p-2 rounded block text-gray-500 text-xs font-medium',
+                                                                   'bg-blue-50 text-blue-700' => $item->isActive(
+                                                                       $component->attributes->get('current')
+                                                                   ),
+                                                               ])>
+                                                                {{ $item->name }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </x-hub::menu>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </x-hub::menu>
+
+                        <div class="pt-4 mt-4 border-t border-gray-100">
+                            @if (Auth::user()->can('settings'))
+                                <a href="{{ route('hub.settings') }}"
+                                   @class([
+                                       'relative flex items-center gap-2 p-2 rounded text-gray-500',
+                                       'bg-blue-50 text-blue-700' => $item->isActive(
+                                           $component->attributes->get('current')
+                                       ),
+                                   ])>
+                                    {!! GetCandy\Hub\GetCandyHub::icon('cog', 'w-5 h-5') !!}
+
+                                    <span class="text-sm font-medium">
+                                        {{ __('adminhub::global.settings') }}
+                                    </span>
+                                </a>
+                            @endif
                         </div>
-                        <nav aria-label="Sidebar"
-                             class="mt-5">
-                            <div class="px-2 space-y-1">
-                                <a href="#"
-                                   class="flex items-center p-2 text-base font-medium text-gray-600 rounded-md group hover:bg-gray-50 hover:text-gray-900">
-                                    <!-- Heroicon name: outline/home -->
-                                    <svg class="w-6 h-6 mr-4 text-gray-400 group-hover:text-gray-500"
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke-width="2"
-                                         stroke="currentColor"
-                                         aria-hidden="true">
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                    </svg>
-                                    Home
-                                </a>
-
-                                <a href="#"
-                                   class="flex items-center p-2 text-base font-medium text-gray-600 rounded-md group hover:bg-gray-50 hover:text-gray-900">
-                                    <!-- Heroicon name: outline/fire -->
-                                    <svg class="w-6 h-6 mr-4 text-gray-400 group-hover:text-gray-500"
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke-width="2"
-                                         stroke="currentColor"
-                                         aria-hidden="true">
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
-                                    </svg>
-                                    Trending
-                                </a>
-
-                                <a href="#"
-                                   class="flex items-center p-2 text-base font-medium text-gray-600 rounded-md group hover:bg-gray-50 hover:text-gray-900">
-                                    <!-- Heroicon name: outline/bookmark-alt -->
-                                    <svg class="w-6 h-6 mr-4 text-gray-400 group-hover:text-gray-500"
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke-width="2"
-                                         stroke="currentColor"
-                                         aria-hidden="true">
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                    Bookmarks
-                                </a>
-
-                                <a href="#"
-                                   class="flex items-center p-2 text-base font-medium text-gray-600 rounded-md group hover:bg-gray-50 hover:text-gray-900">
-                                    <!-- Heroicon name: outline/inbox -->
-                                    <svg class="w-6 h-6 mr-4 text-gray-400 group-hover:text-gray-500"
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke-width="2"
-                                         stroke="currentColor"
-                                         aria-hidden="true">
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                                    </svg>
-                                    Messages
-                                </a>
-
-                                <a href="#"
-                                   class="flex items-center p-2 text-base font-medium text-gray-600 rounded-md group hover:bg-gray-50 hover:text-gray-900">
-                                    <!-- Heroicon name: outline/user -->
-                                    <svg class="w-6 h-6 mr-4 text-gray-400 group-hover:text-gray-500"
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke-width="2"
-                                         stroke="currentColor"
-                                         aria-hidden="true">
-                                        <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
-                                    Profile
-                                </a>
-                            </div>
-                        </nav>
                     </div>
-                    <div class="flex flex-shrink-0 p-4 border-t border-gray-200">
+
+
+                    {{-- <div class="flex flex-shrink-0 p-4 border-t border-gray-200">
                         <a href="#"
                            class="flex-shrink-0 block group">
                             <div class="flex items-center">
@@ -203,17 +202,11 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
-                </div>
-
-                <div class="flex-shrink-0 w-14"
-                     aria-hidden="true">
-                    <!-- Force sidebar to shrink to fit close icon -->
+                    </div> --}}
                 </div>
             </div>
         </div>
 
-        <!-- Static sidebar for desktop -->
         <div class="hidden lg:flex lg:flex-shrink-0">
             <div class="relative bg-white border-r border-gray-100"
                  :class="{ 'w-48': showExpandedMenu, 'w-20 items-center': !showExpandedMenu }">
@@ -250,30 +243,46 @@
                         </svg>
                     </span>
                 </button>
+            </div>
+        </div>
 
-                {{-- <div class="sticky inset-x-0 bottom-0 z-10 bg-white">
-                        <button x-on:click="showExpandedMenu = !showExpandedMenu"
-                                class="absolute -right-[13px] block p-1 bg-white border border-gray-100 rounded bottom-20">
-                            <span :class="{ '-rotate-180': showExpandedMenu }"
-                                  class="block">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     viewBox="0 0 20 20"
-                                     fill="currentColor"
-                                     class="w-4 h-4">
-                                    <path fill-rule="evenodd"
-                                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                          clip-rule="evenodd" />
-                                </svg>
-                            </span>
+        <div class="flex flex-col flex-1 min-w-0 overflow-hidden">
+            <div class="lg:hidden">
+                <div
+                     class="flex items-center justify-between h-16 px-4 bg-white border-b border-gray-100 sm:px-6 lg:px-8">
+                    <a href="{{ route('hub.index') }}"
+                       class="block">
+                        <img class="w-8 h-8"
+                             src="https://markmead.dev/gc-favicon.svg"
+                             alt="Workflow">
+                    </a>
+
+                    <div class="flex items-center gap-4">
+                        <button type="button"
+                                x-on:click="showMobileMenu = true">
+                            <svg class="w-6 h-6"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="2"
+                                 stroke="currentColor"
+                                 aria-hidden="true">
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
                         </button>
 
+                        <span class="w-px h-8 bg-gray-100"
+                              aria-hidden="true"></span>
+
                         <div x-data="{ showUserMenu: false }"
-                             x-on:mouseover="showUserMenu = true"
-                             x-on:mouseleave="showUserMenu = false"
-                             class="relative border-t border-gray-100">
+                             x-on:click="showUserMenu = !showUserMenu"
+                             x-on:click.away="showUserMenu = false"
+                             class="relative">
                             <div x-show="showUserMenu"
                                  x-transition
-                                 class="absolute p-2 -mb-2 bg-white border border-gray-100 rounded-lg bottom-full left-4 w-36">
+                                 class="absolute z-50 p-2 -mt-2 bg-white border border-gray-100 rounded-lg top-full right-4 w-36">
                                 <ul class="flex flex-col">
                                     <li>
                                         <a href="{{ route('hub.account') }}"
@@ -306,55 +315,12 @@
                                 </ul>
                             </div>
 
-                            <div class="flex items-center h-16 gap-2 px-4 bg-white">
+                            <div class="flex items-center h-16 gap-2">
                                 <div class="shrink-0">
-                                    @livewire('hub.components.avatar', ['attributes' => ['class' => 'w-8 h-8 rounded-full']])
-                                </div>
-
-                                <div x-show="showExpandedMenu"
-                                     class="leading-none">
-                                    <strong>
-                                        @livewire('hub.components.current-staff-name', [
-                                            'class' => 'text-sm font-medium leading-none text-gray-900',
-                                        ])
-                                    </strong>
-
-                                    <small class="block text-xs text-gray-500 leading-none mt-0.5">
-                                        {{ __('adminhub::account.view-profile') }}
-                                    </small>
+                                    @livewire('hub.components.avatar')
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
-            </div>
-        </div>
-
-        <div class="flex flex-col flex-1 min-w-0 overflow-hidden">
-            <!-- Mobile top navigation -->
-            <div class="lg:hidden">
-                <div class="flex items-center justify-between px-4 py-2 bg-indigo-600 sm:px-6 lg:px-8">
-                    <div>
-                        <img class="w-auto h-8"
-                             src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
-                             alt="Workflow">
-                    </div>
-                    <div>
-                        <button type="button"
-                                class="inline-flex items-center justify-center w-12 h-12 -mr-3 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                            <span class="sr-only">Open sidebar</span>
-                            <!-- Heroicon name: outline/menu -->
-                            <svg class="w-6 h-6"
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="2"
-                                 stroke="currentColor"
-                                 aria-hidden="true">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -368,7 +334,6 @@
                     </div>
                 </section>
 
-                <!-- Secondary column (hidden on smaller screens) -->
                 @include('adminhub::partials.inner-menu')
             </main>
         </div>
