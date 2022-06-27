@@ -67,7 +67,13 @@
                  x-show="showMobileMenu"></div>
 
             <div class="fixed inset-0 z-40 flex"
-                 x-show="showMobileMenu">
+                 x-show="showMobileMenu"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="-translate-x-full"
+                 x-transition:enter-end="translate-x-0"
+                 x-transition:leave="transition ease-in duration-300"
+                 x-transition:leave-start="translate-x-0"
+                 x-transition:leave-end="-translate-x-full">
                 <div class="relative flex flex-col flex-1 w-full max-w-xs p-4 bg-white focus:outline-none"
                      x-on:click.away="showMobileMenu = false">
                     <div class="flex items-center justify-between">
