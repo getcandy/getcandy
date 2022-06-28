@@ -9,7 +9,8 @@
 </div>
 
 <form wire:submit.prevent="save"
-      class="fixed bottom-0 right-0 z-50 p-6 mr-0 text-right bg-white bg-opacity-75 border-t left-64">
+      class="fixed bottom-0 right-0 left-auto z-40 p-6 border-t border-gray-100 bg-white/75"
+      :class="{ 'w-[calc(100vw_-_12rem)]': showExpandedMenu, 'w-[calc(100vw_-_5rem)]': !showExpandedMenu }">
     <div class="flex justify-end w-full space-x-6">
         @include('adminhub::partials.products.status-bar')
         <x-hub::button type="submit">{{ __('adminhub::catalogue.products.show.save_btn') }}</x-hub::button>

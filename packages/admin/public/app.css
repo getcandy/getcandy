@@ -1101,6 +1101,9 @@ video {
 .w-\[calc\(100vw_-_30rem\)\] {
   width: calc(100vw - 30rem);
 }
+.w-\[calc\(100vw_-_13rem\)\] {
+  width: calc(100vw - 13rem);
+}
 .min-w-full {
   min-width: 100%;
 }
