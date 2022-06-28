@@ -1088,6 +1088,12 @@ video {
 .w-2 {
   width: 0.5rem;
 }
+.w-\[calc\(100vw_-_23rem\)\] {
+  width: calc(100vw - 23rem);
+}
+.w-\[calc\(100vw_-_30rem\)\] {
+  width: calc(100vw - 30rem);
+}
 .min-w-full {
   min-width: 100%;
 }
@@ -1998,6 +2004,9 @@ video {
 }
 .pb-6 {
   padding-bottom: 1.5rem;
+}
+.pb-16 {
+  padding-bottom: 4rem;
 }
 .text-left {
   text-align: left;
