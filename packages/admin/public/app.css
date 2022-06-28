@@ -900,6 +900,9 @@ video {
 .mr-0 {
   margin-right: 0px;
 }
+.mt-5 {
+  margin-top: 1.25rem;
+}
 .block {
   display: block;
 }
@@ -1810,6 +1813,10 @@ video {
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
+}
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .p-4 {
   padding: 1rem;
