@@ -2021,6 +2021,18 @@ video {
 .pb-16 {
   padding-bottom: 4rem;
 }
+.pb-\[8\] {
+  padding-bottom: 8;
+}
+.pb-\[87px\] {
+  padding-bottom: 87px;
+}
+.pb-32 {
+  padding-bottom: 8rem;
+}
+.pb-28 {
+  padding-bottom: 7rem;
+}
 .text-left {
   text-align: left;
 }
@@ -3192,6 +3204,10 @@ p > code {
 
 @media (min-width: 1024px) {
 
+  .lg\:left-auto {
+    left: auto;
+  }
+
   .lg\:order-last {
     order: 9999;
   }
@@ -3243,6 +3259,14 @@ p > code {
 
   .lg\:hidden {
     display: none;
+  }
+
+  .lg\:w-\[calc\(100vw_-_5rem\)\] {
+    width: calc(100vw - 5rem);
+  }
+
+  .lg\:w-\[calc\(100vw_-_12rem\)\] {
+    width: calc(100vw - 12rem);
   }
 
   .lg\:flex-1 {
