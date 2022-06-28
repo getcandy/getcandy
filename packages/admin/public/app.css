@@ -625,6 +625,10 @@ video {
 .relative {
   position: relative;
 }
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
 .inset-0 {
   top: 0px;
   right: 0px;
@@ -713,6 +717,9 @@ video {
 }
 .left-64 {
   left: 16rem;
+}
+.top-8 {
+  top: 2rem;
 }
 .z-50 {
   z-index: 50;
@@ -1475,6 +1482,9 @@ video {
 }
 .overflow-y-scroll {
   overflow-y: scroll;
+}
+.scroll-smooth {
+  scroll-behavior: smooth;
 }
 .truncate {
   overflow: hidden;
