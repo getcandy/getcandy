@@ -52,7 +52,7 @@ class OrderSearch extends AbstractSearch
             $options = [
                 'limit' => $perPage,
                 'offset' => ($perPage * $page) - $perPage,
-                'facetsDistribution' => (new Order)->getFilterableAttributes(),
+                // 'facetsDistribution' => (new Order)->getFilterableAttributes(),
                 'sort' => ['placed_at:desc', 'created_at:desc'],
             ];
 
@@ -105,13 +105,13 @@ class OrderSearch extends AbstractSearch
         // In order to get all the facets we need, we need to do a separate call to meilisearch with empty
         // search and filters. Since Meilisearch will remove any facets not in the result, which is the opposite of what
         // we want. Hopefully one day we can change this...
-        $emptySearch = Order::search($term, function ($engine, $query) use ($options) {
-            $options = [
-                'facetsDistribution' => (new Order)->getFilterableAttributes(),
-            ];
-
-            return $engine->search(null, $options);
-        })->raw();
+//         $emptySearch = Order::search($term, function ($engine, $query) use ($options) {
+//             $options = [
+//                 // 'facetsDistribution' => (new Order)->getFilterableAttributes(),
+//             ];
+//
+//             return $engine->search(null, $options);
+//         })->raw();
 
         $results = tap($builder->paginate($perPage, 'page', $page), function ($orders) {
             return $orders->load(['billingAddress', 'currency']);
@@ -119,15 +119,15 @@ class OrderSearch extends AbstractSearch
 
         $facets = new Facets;
 
-        foreach ($emptySearch['facetsDistribution'] as $facet => $values) {
-            $fields = collect($values)->map(function ($count, $field) {
-                return new FacetField($field, $count);
-            })->values();
-
-            $facets->items->push(
-                new Facet($facet, $fields)
-            );
-        }
+//         foreach ($emptySearch['facetsDistribution'] as $facet => $values) {
+//             $fields = collect($values)->map(function ($count, $field) {
+//                 return new FacetField($field, $count);
+//             })->values();
+//
+//             $facets->items->push(
+//                 new Facet($facet, $fields)
+//             );
+//         }
 
         return new SearchResults(
             $results,
