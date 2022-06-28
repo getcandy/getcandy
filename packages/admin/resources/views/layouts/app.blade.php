@@ -56,7 +56,7 @@
 </head>
 
 <body class="h-full overflow-hidden antialiased"
-      x-data="{ showExpandedMenu: false, showInnerMenu: true, showMobileMenu: false }">
+      x-data="{ showExpandedMenu: false, showMobileMenu: false }">
     {!! \GetCandy\Hub\GetCandyHub::paymentIcons() !!}
 
     <div class="flex h-full">
@@ -75,6 +75,8 @@
                         @yield('main', $slot)
                     </div>
                 </section>
+
+                @yield('menu')
 
                 @if ($menu ?? false)
                     @include('adminhub::partials.navigation.side-menu-nested')
