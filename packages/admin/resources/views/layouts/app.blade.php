@@ -40,6 +40,8 @@
 
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script defer
+            src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script defer
             src="https://unpkg.com/alpinejs@3.8.1/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
@@ -56,7 +58,7 @@
 </head>
 
 <body class="h-full overflow-hidden antialiased"
-      x-data="{ showExpandedMenu: false, showMobileMenu: false }">
+      x-data="{ showExpandedMenu: $persist(false), showMobileMenu: false }">
     {!! \GetCandy\Hub\GetCandyHub::paymentIcons() !!}
 
     <div class="flex h-full">
