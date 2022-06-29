@@ -10,20 +10,20 @@
             <div class="flex items-center justify-between gap-4 p-2 border rounded"
                  wire:key="initial_asset_{{ $assetModel->id }}">
                 <div class="flex items-center gap-4 overflow-hidden">
-                    <div class="grid w-12 h-12 border border-gray-100 rounded place-content-center shrink-0">
+                    <div class="w-12 h-12 p-2 border rounded shrink-0">
                         @if ($assetModel->file->hasGeneratedConversion('small'))
                             <a href="{{ $assetModel->file->getUrl('large') }}"
                                target="_blank"
                                class="block">
                                 <img src="{{ $assetModel->file->getUrl('small') }}"
-                                     class="object-contain w-8 h-8">
+                                     class="object-contain w-8 h-8 mx-auto">
                             </a>
                         @else
                             <x-hub::icon ref="document"
-                                         class="w-8 h-8 text-gray-400" />
+                                         class="w-8 h-8 mx-auto text-gray-400" />
                         @endif
                     </div>
-                    
+
                     <p class="text-xs truncate">
                         {{ $assetModel->id }} - {{ $assetModel->file->file_name }}
                     </p>
@@ -47,7 +47,7 @@
         </x-slot>
 
         <x-slot name="content">
-            <div class="grid items-center grid-cols-2 gap-4 lg:grid-cols-3">
+            <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
                 <label class="p-6 border border-dashed rounded-md cursor-pointer hover:border-blue-500">
                     <div>
                         <x-hub::icon ref="upload"
