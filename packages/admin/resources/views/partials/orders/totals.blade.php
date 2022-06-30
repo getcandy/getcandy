@@ -8,7 +8,7 @@
             class="mr-2"
           />
 
-          {!! $shippingLine->description !!}
+          {{ strip_tags($shippingLine->description) }}
         </div>
 
         <strong>
