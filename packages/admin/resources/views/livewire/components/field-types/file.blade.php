@@ -25,7 +25,7 @@
                     </div>
 
                     <p class="text-xs truncate">
-                        {{ $assetModel->id }} - {{ $assetModel->file->file_name }}
+                      {{ $assetModel->file->file_name }}
                     </p>
                 </div>
 
