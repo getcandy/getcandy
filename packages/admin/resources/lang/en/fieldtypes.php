@@ -17,4 +17,5 @@ return [
     'toggle.on_label'            => 'On Value',
     'toggle.off_label'           => 'Off Value',
     'youtube.label'              => 'YouTube Video',
+    'file.label'                 => 'File Upload',
 ];

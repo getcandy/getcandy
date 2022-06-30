@@ -227,6 +227,22 @@ trait WithAttributes
         return $messages;
     }
 
+    public function updatedAttributes($event)
+    {
+        $key = str_replace(
+            'attributeMapping.',
+            '',
+            str_replace('.data', '', $event['path'])
+        );
+
+        $field = $this->attributeMapping[$key];
+
+        $field['data'] = $event['data'];
+
+        $this->attributeMapping->put($key, $field);
+        // dd($data);
+    }
+
     /**
      * Computed property to get attribute data.
      *
