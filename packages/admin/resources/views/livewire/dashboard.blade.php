@@ -1,18 +1,32 @@
 <div>
-    {{-- <div class="flex justify-between px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
-      <h1 class="text-2xl font-semibold text-gray-900">{{ __('adminhub::global.dashboard') }}</h1>
+    <header class="sm:justify-between sm:items-center sm:flex">
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-900 sm:text-3xl dark:text-white">
+                {{ __('adminhub::global.dashboard') }}
+            </h1>
 
-      <div class="flex items-center space-x-4">
-          <x-hub::input.datepicker wire:model="range.from" />
-          <span class="text-xs font-medium text-gray-500 uppercase">{{ __('adminhub::global.to') }}</span>
-          <x-hub::input.datepicker wire:model="range.to" />
-      </div>
-  </div> --}}
+            <p class="mt-1 text-gray-500 dark:text-gray-400">
+                Welcome to your GetCandy dashboard.
+            </p>
+        </div>
 
-    <div class="space-y-4 lg:space-y-8">
+        <div class="flex items-center gap-4 mt-4 sm:mt-0">
+            <x-hub::input.datepicker wire:model="range.from" />
+
+            <span class="text-xs font-medium tracking-wide text-gray-500 uppercase">
+                {{ __('adminhub::global.to') }}
+            </span>
+
+            <x-hub::input.datepicker wire:model="range.to" />
+        </div>
+    </header>
+
+    <div class="mt-8 space-y-4 lg:space-y-8">
         <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-8">
             <article
-                     class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                     class="relative p-6 overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                <div class="absolute w-64 h-64 rounded-full -left-12 -bottom-16 bg-emerald-600/5 blur-3xl"></div>
+
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-xs text-gray-500">
@@ -56,7 +70,9 @@
             </article>
 
             <article
-                     class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                     class="relative p-6 overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                <div class="absolute w-64 h-64 rounded-full -left-12 -bottom-16 bg-violet-600/5 blur-3xl"></div>
+
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-xs text-gray-500">
@@ -100,7 +116,9 @@
             </article>
 
             <article
-                     class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                     class="relative p-6 overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                <div class="absolute w-64 h-64 rounded-full -left-12 -bottom-16 bg-amber-600/5 blur-3xl"></div>
+
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-xs text-gray-500">
@@ -144,7 +162,9 @@
             </article>
 
             <article
-                     class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                     class="relative p-6 overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                <div class="absolute w-64 h-64 rounded-full -left-12 -bottom-16 bg-rose-600/5 blur-3xl"></div>
+
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-xs text-gray-500">
