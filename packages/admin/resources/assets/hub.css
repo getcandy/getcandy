@@ -3,44 +3,78 @@
 @tailwind utilities;
 
 p > code {
-    @apply font-mono text-sm bg-gray-100 text-purple-600;
+  @apply font-mono text-sm bg-gray-100 text-purple-600;
 }
 
 [x-cloak] {
-    display: none;
+  display: none;
 }
 
 /* Add the lines below */
 
 @layer utilities {
-    .masonry {
-        column-count: 4;
-        column-gap: 1em;
-    }
+  .masonry {
+    column-count: 4;
+    column-gap: 1em;
+  }
 
-    .break-inside {
-        break-inside: avoid;
-    }
+  .break-inside {
+    break-inside: avoid;
+  }
 }
 
 .sortable-ghost .sort-item-element {
-    @apply bg-blue-50 text-blue-600 border-blue-300;
+  @apply bg-blue-50 text-blue-600 border-blue-300;
 }
 
 .ql-editor {
-    @apply space-y-2;
+  @apply space-y-2;
 }
 
 @layer components {
-    .menu-link {
-        @apply relative flex items-center gap-2 p-2 rounded;
-    }
+  .menu-link {
+    @apply relative flex items-center gap-2 p-2 rounded;
+  }
 
-    .menu-link--active {
-        @apply bg-blue-50 text-blue-700 dark:bg-gray-800 dark:text-white;
-    }
+  .menu-link--active {
+    @apply bg-blue-50 text-blue-700 dark:bg-gray-800 dark:text-white;
+  }
 
-    .menu-link--inactive {
-        @apply text-gray-500 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white;
-    }
+  .menu-link--inactive {
+    @apply text-gray-500 hover:bg-blue-50 hover:text-blue-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white;
+  }
+}
+
+.dark .apexcharts-canvas text {
+  @apply !fill-gray-400;
+}
+
+.dark .apexcharts-canvas .apexcharts-legend-text {
+  @apply !text-gray-400;
+}
+
+.dark .apexcharts-canvas .apexcharts-xaxis line,
+.dark .apexcharts-canvas .apexcharts-gridline,
+.dark .apexcharts-canvas .apexcharts-xaxis-tick,
+.dark .apexcharts-canvas .apexcharts-pie-area,
+.dark .apexcharts-canvas .apexcharts-xcrosshairs {
+  @apply !stroke-gray-500;
+}
+
+.dark .apexcharts-canvas .apexcharts-tooltip {
+  @apply !shadow-none;
+}
+
+.dark .apexcharts-canvas .apexcharts-tooltip,
+.dark .apexcharts-canvas .apexcharts-tooltip .apexcharts-tooltip-title,
+.dark .apexcharts-canvas .apexcharts-xaxistooltip {
+  @apply !bg-gray-900 !border-gray-800 !text-white;
+}
+
+.dark .apexcharts-canvas .apexcharts-xaxistooltip:before {
+  @apply !border-b-gray-800;
+}
+
+.dark .apexcharts-canvas .apexcharts-xaxistooltip:after {
+  @apply !border-b-gray-900;
 }

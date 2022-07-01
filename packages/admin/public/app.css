@@ -2430,7 +2430,7 @@ p > code {
 }
 
 [x-cloak] {
-    display: none;
+  display: none;
 }
 
 /* Add the lines below */
@@ -2448,6 +2448,50 @@ p > code {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
+.dark .apexcharts-canvas text {
+  fill: #9ca3af !important;
+}
+
+.dark .apexcharts-canvas .apexcharts-legend-text {
+  --tw-text-opacity: 1 !important;
+  color: rgb(156 163 175 / var(--tw-text-opacity)) !important;
+}
+
+.dark .apexcharts-canvas .apexcharts-xaxis line, 
+.dark .apexcharts-canvas .apexcharts-gridline, 
+.dark .apexcharts-canvas .apexcharts-xaxis-tick, 
+.dark .apexcharts-canvas .apexcharts-pie-area, 
+.dark .apexcharts-canvas .apexcharts-xcrosshairs {
+  stroke: #6b7280 !important;
+}
+
+.dark .apexcharts-canvas .apexcharts-tooltip {
+  --tw-shadow: 0 0 #0000 !important;
+  --tw-shadow-colored: 0 0 #0000 !important;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+}
+
+.dark .apexcharts-canvas .apexcharts-tooltip, 
+.dark .apexcharts-canvas .apexcharts-tooltip .apexcharts-tooltip-title, 
+.dark .apexcharts-canvas .apexcharts-xaxistooltip {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(31 41 55 / var(--tw-border-opacity)) !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(17 24 39 / var(--tw-bg-opacity)) !important;
+  --tw-text-opacity: 1 !important;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+}
+
+.dark .apexcharts-canvas .apexcharts-xaxistooltip:before {
+  --tw-border-opacity: 1 !important;
+  border-bottom-color: rgb(31 41 55 / var(--tw-border-opacity)) !important;
+}
+
+.dark .apexcharts-canvas .apexcharts-xaxistooltip:after {
+  --tw-border-opacity: 1 !important;
+  border-bottom-color: rgb(17 24 39 / var(--tw-border-opacity)) !important;
 }
 
 .before\:mx-3::before {
