@@ -33,8 +33,10 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->range['from'] = $this->range['from'] ?? now()->startOfWeek()->format('Y-m-d');
-        $this->range['to'] = $this->range['too'] ?? now()->endOfWeek()->format('Y-m-d');
+        // $this->range['from'] = $this->range['from'] ?? now()->startOfWeek()->format('Y-m-d');
+        // $this->range['to'] = $this->range['too'] ?? now()->endOfWeek()->format('Y-m-d');
+        $this->range['from'] = '2021-01-01';
+        $this->range['to'] = '2022-10-10';
     }
 
     public function rules()
