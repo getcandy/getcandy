@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      class="h-full bg-gray-50">
+      class="h-full">
 
 <head>
     <meta charset="utf-8" />
@@ -57,8 +57,13 @@
     @livewireStyles
 </head>
 
-<body class="h-full overflow-hidden antialiased"
-      x-data="{ showExpandedMenu: $persist(false), showMobileMenu: false }">
+<body class="h-full overflow-hidden antialiased bg-gray-50 dark:bg-gray-900"
+      :class="{ 'dark': darkMode }"
+      x-data="{
+          showExpandedMenu: $persist(false),
+          showMobileMenu: false,
+          darkMode: $persist(false),
+      }">
     {!! \GetCandy\Hub\GetCandyHub::paymentIcons() !!}
 
     <div class="flex h-full">
