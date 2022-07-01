@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
-      class="h-full">
+      class="h-full"
+      :class="{ 'dark': darkMode }"
+      x-data="{ darkMode: $persist(true) }">
 
 <head>
     <meta charset="utf-8" />
@@ -65,11 +67,9 @@
 </head>
 
 <body class="h-full overflow-hidden antialiased bg-gray-50 dark:bg-gray-900"
-      :class="{ 'dark': darkMode }"
       x-data="{
           showExpandedMenu: $persist(false),
           showMobileMenu: false,
-          darkMode: $persist(false),
       }">
     {!! \GetCandy\Hub\GetCandyHub::paymentIcons() !!}
 
