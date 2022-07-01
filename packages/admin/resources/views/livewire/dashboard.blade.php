@@ -282,23 +282,28 @@
                         <tbody class="text-sm">
                             @foreach ($this->recentOrders as $order)
                                 <tr class="group odd:bg-gray-50 dark:odd:bg-gray-900/50">
-                                    <td class="p-4 group-hover:bg-gray-900 group-hover:text-white rounded-l-md">
+                                    <td
+                                        class="p-4 group-hover:bg-gray-100 dark:group-hover:bg-gray-900 dark:group-hover:text-white rounded-l-md">
                                         {{ $order->billingAddress->full_name }}
                                     </td>
 
-                                    <td class="p-4 group-hover:bg-gray-900 group-hover:text-white">
+                                    <td
+                                        class="p-4 group-hover:bg-gray-100 dark:group-hover:bg-gray-900 dark:group-hover:text-white">
                                         {{ $order->reference }}
                                     </td>
 
-                                    <td class="p-4 group-hover:bg-gray-900 group-hover:text-white">
+                                    <td
+                                        class="p-4 group-hover:bg-gray-100 dark:group-hover:bg-gray-900 dark:group-hover:text-white">
                                         {{ optional($order->placed_at)->format('jS F Y h:ma') }}
                                     </td>
 
-                                    <td class="p-4 group-hover:bg-gray-900 group-hover:text-white">
+                                    <td
+                                        class="p-4 group-hover:bg-gray-100 dark:group-hover:bg-gray-900 dark:group-hover:text-white">
                                         {{ $order->total->formatted }}
                                     </td>
 
-                                    <td class="grid p-4 group-hover:bg-gray-900 group-hover:text-white rounded-r-md">
+                                    <td
+                                        class="grid p-4 group-hover:bg-gray-100 dark:group-hover:bg-gray-900 dark:group-hover:text-white rounded-r-md">
                                         <a href="{{ route('hub.orders.show', $order->id) }}"
                                            class="inline-block p-1 rounded-md hover:bg-gray-800 place-self-center">
                                             <x-hub::icon ref="chevron-right"
