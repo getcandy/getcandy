@@ -56,9 +56,12 @@ p > code {
 .dark .apexcharts-canvas .apexcharts-xaxis line,
 .dark .apexcharts-canvas .apexcharts-gridline,
 .dark .apexcharts-canvas .apexcharts-xaxis-tick,
-.dark .apexcharts-canvas .apexcharts-pie-area,
 .dark .apexcharts-canvas .apexcharts-xcrosshairs {
   @apply !stroke-gray-500;
+}
+
+.dark .apexcharts-canvas .apexcharts-pie-area {
+  @apply !stroke-gray-700;
 }
 
 .dark .apexcharts-canvas .apexcharts-tooltip {

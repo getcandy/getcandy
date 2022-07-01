@@ -45,7 +45,7 @@
 
                     <p class="flex gap-2 text-xs">
                         <span class="font-semibold">
-                            67.81%
+                            12.43%
                         </span>
 
                         <span class="text-gray-700 dark:text-gray-400">
@@ -64,7 +64,7 @@
                         </p>
 
                         <p class="text-2xl font-semibold text-gray-900 dark:text-white mt-0.5">
-                            $240.94
+                            $12,494.16
                         </p>
                     </div>
 
@@ -89,7 +89,7 @@
 
                     <p class="flex gap-2 text-xs">
                         <span class="font-semibold">
-                            67.81%
+                            84.81%
                         </span>
 
                         <span class="text-gray-700 dark:text-gray-400">
@@ -177,7 +177,7 @@
 
                     <p class="flex gap-2 text-xs">
                         <span class="font-semibold">
-                            67.81%
+                            12.81%
                         </span>
 
                         <span class="text-gray-700 dark:text-gray-400">

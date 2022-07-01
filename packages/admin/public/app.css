@@ -2462,9 +2462,12 @@ p > code {
 .dark .apexcharts-canvas .apexcharts-xaxis line, 
 .dark .apexcharts-canvas .apexcharts-gridline, 
 .dark .apexcharts-canvas .apexcharts-xaxis-tick, 
-.dark .apexcharts-canvas .apexcharts-pie-area, 
 .dark .apexcharts-canvas .apexcharts-xcrosshairs {
   stroke: #6b7280 !important;
+}
+
+.dark .apexcharts-canvas .apexcharts-pie-area {
+  stroke: #374151 !important;
 }
 
 .dark .apexcharts-canvas .apexcharts-tooltip {
@@ -2863,6 +2866,11 @@ p > code {
 .dark .dark\:border-gray-800 {
   --tw-border-opacity: 1;
   border-color: rgb(31 41 55 / var(--tw-border-opacity));
+}
+
+.dark .dark\:border-gray-900 {
+  --tw-border-opacity: 1;
+  border-color: rgb(17 24 39 / var(--tw-border-opacity));
 }
 
 .dark .dark\:bg-gray-900 {
