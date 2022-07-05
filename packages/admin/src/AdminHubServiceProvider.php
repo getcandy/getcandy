@@ -19,6 +19,10 @@ use GetCandy\Hub\Http\Livewire\Components\CollectionSearch;
 use GetCandy\Hub\Http\Livewire\Components\CurrentStaffName;
 use GetCandy\Hub\Http\Livewire\Components\Customers\CustomerShow;
 use GetCandy\Hub\Http\Livewire\Components\Customers\CustomersIndex;
+use GetCandy\Hub\Http\Livewire\Components\Discounts\DiscountShow;
+use GetCandy\Hub\Http\Livewire\Components\Discounts\DiscountsIndex;
+use GetCandy\Hub\Http\Livewire\Components\Discounts\Types\Coupon;
+use GetCandy\Hub\Http\Livewire\Components\Discounts\Types\ProductDiscount;
 use GetCandy\Hub\Http\Livewire\Components\Orders\OrderCapture;
 use GetCandy\Hub\Http\Livewire\Components\Orders\OrderRefund;
 use GetCandy\Hub\Http\Livewire\Components\Orders\OrderShow;
@@ -182,6 +186,7 @@ class AdminHubServiceProvider extends ServiceProvider
         $this->registerSettingsComponents();
         $this->registerOrderComponents();
         $this->registerCustomerComponents();
+        $this->registerDiscountComponents();
 
         // Blade Components
         Blade::componentNamespace('GetCandy\\Hub\\Views\\Components', 'hub');
@@ -324,6 +329,16 @@ class AdminHubServiceProvider extends ServiceProvider
         // Addons
         Livewire::component('hub.components.settings.addons.index', AddonsIndex::class);
         Livewire::component('hub.components.settings.addons.show', AddonShow::class);
+    }
+
+    public function registerDiscountComponents()
+    {
+        Livewire::component('hub.components.discounts.index', DiscountsIndex::class);
+        Livewire::component('hub.components.discounts.show', DiscountShow::class);
+
+        // dd((new Coupon)->getName());
+        Livewire::component('hub.components.discounts.types.coupon', Coupon::class);
+        Livewire::component('hub.components.discounts.types.product-discount', ProductDiscount::class);
     }
 
     /**
