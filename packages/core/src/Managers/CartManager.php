@@ -276,7 +276,6 @@ class CartManager
      */
     public function updateLine($id, int $quantity, $meta = null)
     {
-
         if ($quantity < 1) {
             throw new InvalidCartLineQuantityException(
                 __('getcandy::exceptions.invalid_cart_line_quantity', [
