@@ -120,8 +120,7 @@ class File implements FieldType, JsonSerializable
         return [
             'view'    => 'adminhub::field-types.file',
             'options' => [
-                'path' => 'nullable',
-                'disk' => 'nullable',
+                'max_files' => 'numeric',
             ],
         ];
     }

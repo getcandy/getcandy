@@ -116,7 +116,7 @@ class CreateOrder
                     'purchasable_type' => ShippingOption::class,
                     'purchasable_id'   => 1,
                     'type'             => 'shipping',
-                    'description'      => $shippingOption->getDescription(),
+                    'description'      => strip_tags($shippingOption->getName()),
                     'option'           => $shippingOption->getOption(),
                     'identifier'       => $shippingOption->getIdentifier(),
                     'unit_price'       => $shippingOption->price->value,
