@@ -14,6 +14,7 @@ use GetCandy\Hub\Http\Livewire\Pages\Settings\Currencies\CurrencyShow;
 use GetCandy\Hub\Http\Livewire\Pages\Settings\Languages\LanguageCreate;
 use GetCandy\Hub\Http\Livewire\Pages\Settings\Languages\LanguageShow;
 use GetCandy\Hub\Http\Livewire\Pages\Settings\Languages\LanguagesIndex;
+use GetCandy\Hub\Http\Livewire\Pages\Settings\Product\Features\FeaturesIndex;
 use GetCandy\Hub\Http\Livewire\Pages\Settings\Staff\StaffCreate;
 use GetCandy\Hub\Http\Livewire\Pages\Settings\Staff\StaffIndex;
 use GetCandy\Hub\Http\Livewire\Pages\Settings\Staff\StaffShow;
@@ -105,4 +106,14 @@ Route::group([
     Route::get('/', TagsIndex::class)->name('hub.tags.index');
     // Route::get('channels/create', ChannelCreate::class)->name('hub.channels.create');
     Route::get('tags/{tag}', TagShow::class)->name('hub.tags.show');
+});
+
+/**
+ * Product features routes.
+ */
+Route::group([
+    'middleware' => 'can:settings:core',
+    'prefix'     => 'product',
+], function () {
+    Route::get('features', FeaturesIndex::class)->name('hub.product.features.index');
 });

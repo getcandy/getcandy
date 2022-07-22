@@ -2,6 +2,7 @@
 
 namespace GetCandy\Hub\Http\Livewire\Components\Products\ProductTypes;
 
+use GetCandy\Base\Traits\WithModelAttributeGroup;
 use GetCandy\Hub\Http\Livewire\Traits\Notifies;
 use GetCandy\Hub\Http\Livewire\Traits\WithLanguages;
 use GetCandy\Models\Attribute;
@@ -9,7 +10,9 @@ use GetCandy\Models\AttributeGroup;
 use GetCandy\Models\Product;
 use GetCandy\Models\ProductType;
 use GetCandy\Models\ProductVariant;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -18,6 +21,9 @@ abstract class AbstractProductType extends Component
     use Notifies;
     use WithPagination;
     use WithLanguages;
+    use WithModelAttributeGroup;
+
+    public string $activeTab = 'products';
 
     /**
      * The current view of attributes we're assigning.
@@ -53,6 +59,22 @@ abstract class AbstractProductType extends Component
      * @var string
      */
     public $attributeSearch = '';
+
+    public bool $showGroupCreate = false;
+
+    public bool $showGroupAssign = false;
+
+    public bool $showGroupValueAssign = false;
+
+    public ?int $selectedGroupId = null;
+
+    public ?int $selectedGroupValueId = null;
+
+    public ?int $removeGroupId = null;
+
+    public ?string $removeGroupValueId = null;
+
+    public ?int $attachValueToGroupId = null;
 
     public function addAttribute($id, $type)
     {
@@ -117,6 +139,62 @@ abstract class AbstractProductType extends Component
         );
     }
 
+    public function getTabsProperty(): Collection
+    {
+        return collect([
+            'products' => __('adminhub::partials.product-type.product_custom_attributes_btn'),
+            //'variants' => __('adminhub::partials.product-type.variant_attributes_btn'),
+        ])->merge(class_basename($this) === 'ProductTypeShow' ? $this->getTranslatedGroupNames() : []);
+    }
+
+    public function getSortedGroupsProperty(): Collection
+    {
+        if (! $this->productType->attribute_data) {
+            return collect();
+        }
+
+        $handle = Str::replace('model_', '', $this->activeTab);
+        $groupPositions = collect($this->productType->attribute_data->get($handle))->get('groupIds');
+        $groups = AttributeGroup::whereHandle($handle)
+            ->get()
+            ->flatMap(fn ($group) => $this->getAttributeGroupFromModel($group)->attributes)
+            ->filter(fn ($group) => $this->filterOnlyAssignedGroups($group))
+            ->sortBy(fn (Model $group) => collect($groupPositions)->search($group->id));
+
+        $groups->each(fn (Model $group) => $group->values = $this->sortFilterGroupValues($group, $handle));
+
+        return $groups ?? collect();
+    }
+
+    /**
+     * @todo Refactor to use action
+     */
+    public function assignGroup()
+    {
+        $this->validate([
+            'selectedGroupId' => 'required',
+        ]);
+        $group = AttributeGroup::whereHandle(Str::replace('model_', '', $this->activeTab))->first();
+        $group = $this->getAttributeGroupFromModel($group);
+
+        $values = $group->attributes->filter(
+            fn (Model $group) => $group->id == $this->selectedGroupId
+        )->first()->values->pluck('id');
+
+        $this->productType->attribute_data ??= collect();
+        $this->productType->attribute_data->put(
+            $group->handle, $this->prepareAttributeModelData($group, $values->toArray())
+        );
+        $this->productType->save();
+
+        $this->notify(
+            __('adminhub::catalogue.product-types.show.updated_message'),
+        );
+
+        $this->emitSelf('refreshComponent');
+        $this->showGroupAssign = false;
+    }
+
     /**
      * Get attribute groups for a given type.
      *
@@ -133,9 +211,9 @@ abstract class AbstractProductType extends Component
             $type = ProductVariant::class;
         }
 
-        return AttributeGroup::whereAttributableType($type)->with([
-            'attributes',
-        ])->get();
+        return AttributeGroup::whereType('default')
+            ->whereAttributableType($type)
+            ->with(['attributes'])->get();
     }
 
     /**
@@ -204,5 +282,22 @@ abstract class AbstractProductType extends Component
             )->whereSystem(false)
             ->whereNotIn('id', $existing->pluck('id')->toArray())
             ->paginate(25);
+    }
+
+    public function updatedShowGroupAssign()
+    {
+        $this->reset(['selectedGroupId', 'selectedGroupValueId']);
+        $this->beforeRender();
+    }
+
+    protected function beforeRender(): void
+    {
+        $this->selectedGroupId ??= $this->availableGroupOptions->filter(
+            fn ($group) => ! $group['disabled']
+        )->value('id');
+
+        $this->selectedGroupValueId ??= $this->availableGroupValueOptions->filter(
+            fn ($group) => ! $group['disabled']
+        )->value('id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace GetCandy\Hub\Http\Livewire\Components\Products\ProductTypes;
 
+use GetCandy\Hub\Http\Livewire\Traits\HasActions;
 use GetCandy\Models\Attribute;
 use GetCandy\Models\Product;
 use GetCandy\Models\ProductType;
@@ -10,19 +11,29 @@ use Illuminate\Support\Facades\DB;
 
 class ProductTypeShow extends AbstractProductType
 {
+    use HasActions;
+
     public bool $deleteDialogVisible = false;
+
+    protected $listeners = ['refreshComponent' => '$refresh'];
 
     public function mount()
     {
+        // @todo improve actions
+        /*$this->registerActions([
+            CreateGroup::class,
+            AssignGroup::class,
+        ]);*/
+
         $systemProductAttributes = Attribute::system(Product::class)->get();
-        $systemVariantAttribues = Attribute::system(ProductVariant::class)->get();
+        $systemVariantAttributes = Attribute::system(ProductVariant::class)->get();
         $this->selectedProductAttributes = $this->productType->mappedAttributes
             ->filter(fn ($att) => $att->attribute_type == Product::class)
             ->merge($systemProductAttributes);
 
         $this->selectedVariantAttributes = $this->productType->mappedAttributes
             ->filter(fn ($att) => $att->attribute_type == ProductVariant::class)
-            ->merge($systemVariantAttribues);
+            ->merge($systemVariantAttributes);
     }
 
     /**
@@ -111,6 +122,8 @@ class ProductTypeShow extends AbstractProductType
      */
     public function render()
     {
+        $this->beforeRender();
+
         return view('adminhub::livewire.components.products.product-types.show')
             ->layout('adminhub::layouts.base');
     }

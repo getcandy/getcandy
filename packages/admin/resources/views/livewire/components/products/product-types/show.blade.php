@@ -19,34 +19,11 @@
         @endif
     </div>
 
-    <x-hub::modal.dialog wire:model="deleteDialogVisible">
-        <x-slot name="title">
-            {{ __('adminhub::catalogue.product-types.show.delete.confirm_text') }}
-        </x-slot>
+    @include('adminhub::livewire.components.products.product-types.partials.dialogs')
 
-        <x-slot name="content">
-            @if ($this->canDelete)
-                {{ __('adminhub::catalogue.product-types.show.delete.message') }}
-            @else
-                {{ __('adminhub::catalogue.product-types.show.delete.disabled_message') }}
-            @endif
-        </x-slot>
-
-        <x-slot name="footer">
-            <div class="flex items-center justify-end space-x-4">
-                <x-hub::button theme="gray"
-                               type="button"
-                               wire:click="$set('deleteDialogVisible', false)">
-                    {{ __('adminhub::global.cancel') }}
-                </x-hub::button>
-
-                <x-hub::button wire:click="delete"
-                               :disabled="!$this->canDelete">
-                    {{ __('adminhub::catalogue.product-types.show.delete.confirm_text') }}
-                </x-hub::button>
-            </div>
-        </x-slot>
-    </x-hub::modal.dialog>
+    @if ($this->showGroupCreate)
+        @livewire('hub.components.settings.attributes.attribute-edit')
+    @endif
 
     @include('adminhub::partials.forms.product-type')
 

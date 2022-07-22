@@ -5,6 +5,10 @@ namespace GetCandy\Hub\Http\Livewire\Components\Settings\Attributes;
 use GetCandy\Hub\Http\Livewire\Traits\Notifies;
 use GetCandy\Hub\Http\Livewire\Traits\WithLanguages;
 use GetCandy\Models\AttributeGroup;
+use GetCandy\Models\Collection as CollectionModel;
+use GetCandy\Models\ProductFeature;
+use GetCandy\Models\ProductOption;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -40,6 +44,8 @@ class AttributeGroupEdit extends Component
     public function rules()
     {
         return [
+            'attributeGroup.type' => 'required',
+            'attributeGroup.source' => 'required_if:attributeGroup.type,model',
             "attributeGroup.name.{$this->defaultLanguage->code}" => [
                 'required',
                 'string',
@@ -54,18 +60,61 @@ class AttributeGroupEdit extends Component
     public function mount()
     {
         $this->attributeGroup = $this->attributeGroup ?: new AttributeGroup();
+        $this->attributeGroup->type = $this->getGroupTypesProperty()->keys()->first();
     }
 
+    /**
+     * Return the available group types.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getGroupTypesProperty(): Collection
+    {
+        return collect([
+            'default' => 'Default',
+            'model' => 'Model',
+        ]);
+    }
+
+    /**
+     * Return the models collection.
+     *
+     * @todo Activate features once merged and any other model you would like to use
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getModelsCollectionProperty(): Collection
+    {
+        return collect([
+            '--' => 'Select a model',
+            'collection' => CollectionModel::class,
+            'features' => ProductFeature::class,
+            'options' => ProductOption::class,
+        ]);
+    }
+
+    /**
+     * Return the collection types.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getCollectionTypesProperty(): Collection
+    {
+        return collect([
+            'categories' => 'Categories',
+            'brands' => 'Brands',
+        ]);
+    }
+
+    /**
+     * @todo Rename to save then refactor to inject single action
+     */
     public function create()
     {
         $this->validate();
 
-        $handle = Str::handle("{$this->typeHandle}_{$this->attributeGroup->translate('name')}");
+        $handle = Str::handle($this->attributeGroup->translate('name'));
         $this->attributeGroup->handle = $handle;
-
-        $this->validate([
-            'attributeGroup.handle' => 'unique:'.get_class($this->attributeGroup).',handle',
-        ]);
 
         if ($this->attributeGroup->id) {
             $this->attributeGroup->save();
@@ -76,6 +125,10 @@ class AttributeGroupEdit extends Component
 
             return;
         }
+
+        $this->validate([
+            'attributeGroup.handle' => 'unique:'.get_class($this->attributeGroup).',handle',
+        ]);
 
         $this->attributeGroup->attributable_type = $this->attributableType;
         $this->attributeGroup->position = AttributeGroup::whereAttributableType(

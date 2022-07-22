@@ -2,6 +2,7 @@
 
 namespace GetCandy\Hub\Http\Livewire\Components\Settings\Attributes;
 
+use GetCandy\Base\Traits\WithModelAttributeGroup;
 use GetCandy\Facades\AttributeManifest;
 use GetCandy\Hub\Http\Livewire\Traits\Notifies;
 use GetCandy\Hub\Http\Livewire\Traits\WithLanguages;
@@ -14,6 +15,7 @@ class AttributeShow extends AbstractAttribute
 {
     use Notifies;
     use WithLanguages;
+    use WithModelAttributeGroup;
 
     /**
      * The type property.
@@ -105,10 +107,13 @@ class AttributeShow extends AbstractAttribute
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getAttributeGroupsProperty()
+    public function getAttributeGroupsProperty(): Collection
     {
         return AttributeGroup::whereAttributableType($this->typeClass)
-            ->orderBy('position')->get();
+            ->with('attributes')
+            ->orderBy('position')
+            ->get()
+            ->map(fn ($group) => $this->getAttributeGroupFromModel($group));
     }
 
     /**
