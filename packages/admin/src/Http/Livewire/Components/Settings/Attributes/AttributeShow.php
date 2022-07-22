@@ -2,6 +2,7 @@
 
 namespace GetCandy\Hub\Http\Livewire\Components\Settings\Attributes;
 
+use GetCandy\Base\Traits\WithModelAttributeGroup;
 use GetCandy\Facades\AttributeManifest;
 use GetCandy\Hub\Http\Livewire\Traits\Notifies;
 use GetCandy\Hub\Http\Livewire\Traits\WithLanguages;
@@ -14,6 +15,7 @@ class AttributeShow extends AbstractAttribute
 {
     use Notifies;
     use WithLanguages;
+    use WithModelAttributeGroup;
 
     /**
      * The type property.
@@ -105,10 +107,13 @@ class AttributeShow extends AbstractAttribute
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getAttributeGroupsProperty()
+    public function getAttributeGroupsProperty(): Collection
     {
         return AttributeGroup::whereAttributableType($this->typeClass)
-            ->orderBy('position')->get();
+            ->with('attributes')
+            ->orderBy('position')
+            ->get()
+            ->map(fn ($group) => $this->getAttributeGroupFromModel($group));
     }
 
     /**
@@ -134,8 +139,15 @@ class AttributeShow extends AbstractAttribute
                 $updatedOrder = collect($groups['items'])->first(function ($updated) use ($group) {
                     return $updated['id'] == $group->id;
                 });
-                $group->position = $updatedOrder['order'];
-                $group->save();
+
+                // Ignore dynamic attributes when updating
+                $attributes = $group->attributes;
+                unset($group->attributes);
+
+                $group->update(['position' => $updatedOrder['order']]);
+
+                // Retrieve dynamic attributes again
+                $group->attributes = $attributes;
 
                 return $group;
             })->sortBy('position');
@@ -176,9 +188,7 @@ class AttributeShow extends AbstractAttribute
      */
     public function refreshGroups()
     {
-        $this->sortedAttributeGroups = AttributeGroup::whereAttributableType($this->typeClass)
-        ->orderBy('position')->get();
-
+        $this->sortedAttributeGroups = $this->attributeGroups;
         $this->showGroupCreate = false;
     }
 
@@ -308,6 +318,11 @@ class AttributeShow extends AbstractAttribute
 
         $this->deleteAttributeId = null;
         $this->refreshGroups();
+    }
+
+    public function updated(): void
+    {
+        $this->sortedAttributeGroups = $this->attributeGroups;
     }
 
     /**
